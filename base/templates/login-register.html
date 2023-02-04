@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    {% for msg in messages %}
+
+        {{ msg }}
+    {% endfor %}
+
+    {% if page == 'register' %}
+        <form method="post" action="">
+            {% csrf_token %}
+            {% for field in form %}
+                <p>{{ field.label }}:
+                    {{ field }}</p>
+            {% endfor %}
+            <input type="submit" value="Sign up!">
+        </form>
+    {% else %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" name="username" placeholder="Enter your username">
+            <label for="password">Password:</label>
+            <input type="password" name="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
+            <input type="submit" value="Login">
+        </form>
+    {% endif %}
+{% endblock content %}

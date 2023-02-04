@@ -1,0 +1,9 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <a href="{% url 'find' %}">Searching page</a>
+    <hr>
+    {% for connection in plan %}
+        <h3> <a href="{% url 'bus' connection.id %}">{{ connection }} </a></h3>
+    {% endfor %}
+{% endblock content %}

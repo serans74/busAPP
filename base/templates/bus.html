@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <a href="{% url 'plan' %}">All connections here!</a><br>
+    <a href="{{request.META.HTTP_REFERER}}">Go back</a><br>
+    <a href="{% url 'find' %}">Searching page</a>
+    <hr>
+    <p>Company name - {{ bus.bus_company }}</p>
+    <p>Price - {{ bus.price }} PLN</p>
+    <p>Average speed - {{ bus.average_speed }}</p>
+    <p>Cities where collect passengers :
+        <span>
+            {% for city in cities %}
+                {{ city }}
+            {% endfor %}
+        </span>
+    </p>
+    <p>
+        {% if bus.is_express %}
+            Express
+        {% else %}
+            Non-express
+        {% endif %}
+    </p>
+
+    {% if request.user.is_authenticated %}
+
+        <hr>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Add to your history">
+        </form>
+    {% endif %}
+
+{% endblock content %}

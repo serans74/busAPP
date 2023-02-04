@@ -1,0 +1,6 @@
+.idea
+venv
+.env
+datadumb2.json
+datadump.json
+db.sqlite3

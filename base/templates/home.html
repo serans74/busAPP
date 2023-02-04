@@ -1,0 +1,65 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+    <a href="{% url 'plan' %}">All connections here!</a><br>
+    <a href="{{request.META.HTTP_REFERER}}">Go back</a><br>
+    <hr>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <label>Type the starting city</label>
+        <input name="first_stop" type="text" placeholder="Enter your first stop here">
+        <br>
+        <label>City of the end of your journey</label>
+        <input name="end_stop" type="text" placeholder="Enter your last stop here">
+        <label>Only express</label>
+        <input name="express" type="checkbox">
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+    {% if is_express and express_busses %}
+        <h3>Express busses:</h3>
+        {% for bus in express_busses %}
+            <p><a href="{% url 'bus' bus.id %}">{{ bus }}</a></p>
+        {% endfor %}
+        {% if is_express and not express_busses%}
+            <p> There are no express busses </p>
+        {% endif %}
+        {% if standard_busses %}
+            <h4>You can also check non-express ones:</h4>
+            {% for bus in standard_busses %}
+                <p><a href="{% url 'bus' bus.id %}">{{ bus }}</a></p>
+            {% endfor %}
+        {% endif %}
+    {% else %}
+        {% if standard_busses %}
+            <h3>Non-express busses:</h3>
+            {% for bus in standard_busses %}
+                <p><a href="{% url 'bus' bus.id %}">{{ bus }}</a></p>
+            {% endfor %}
+        {% else %}
+            {% if method == 'POST' %}
+                <p>There is no non-express bus</p>
+            {% endif %}
+        {% endif %}
+        {% if express_busses %}
+            <h4>You can check express ones:</h4>
+            {% for bus in express_busses %}
+                <p><a href="{% url 'bus' bus.id %}">{{ bus }}</a></p>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+    {% if not express_busses and not standard_busses and method == 'POST'%}
+        <p> There is no buss runs this route</p>
+    {% endif %}
+
+    {% if cities %}
+    <br><hr>
+    <h4>We cover travels through these cities:</h4>
+        {% for city in cities %}
+            <small><p>{{ city }}</p></small>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}

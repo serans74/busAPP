@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    {% if request.user == user %}
+        {% if tickets %}
+
+            <h3>Already added tickets: {{ tickets.count }} <br>
+
+            You spent on them average: {{ avg_price }} PLN <br>
+
+            Summary you spent {{ price_sum }} PLN on you voyages
+            </h3>
+
+            <hr>
+        {% endif %}
+
+        {% for ticket in tickets %}
+            <p>{{ ticket.bus }} {{ ticket.date|timesince }} ago</p>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}
